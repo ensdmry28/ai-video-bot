@@ -20,7 +20,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Install Jupyter
-        run: pip install notebook
+        run: |
+          pip install notebook nbconvert
 
       - name: Run notebook and upload
         env:
