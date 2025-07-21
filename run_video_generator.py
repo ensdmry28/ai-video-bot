@@ -11,8 +11,8 @@ from googleapiclient.http import MediaFileUpload
 from google.oauth2 import service_account
 
 # Ayarlar
-openai_api_key = os.getenv("OPENAI_API_KEY")
-eleven_api_key = os.getenv("ELEVEN_API_KEY")
+openai_api_key = os.getenv("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")
+eleven_api_key = os.getenv("sk_9f5f145814f5e0d82d5b9e738f3219ed41eb6eb5399d06ba")
 client_secret_file = "client_secret.json"
 
 set_api_key(eleven_api_key)
@@ -55,7 +55,7 @@ def generate_image(prompt, filename="image.png"):
 
 # 4. Ses üret
 def generate_voice(text, filename="voice.mp3"):
-    audio = generate(text=text, voice="Rachel", model="eleven_multilingual_v2")
+    audio = generate(text=text, voice="7VqWGAWwo2HMrylfKrcm", model="eleven_multilingual_v2")
     save(audio, filename)
     return filename
 
