@@ -1,33 +1,33 @@
-name: Auto AI Video Generator
+name: Run AI Video Generator
 
 on:
-  schedule:
-    - cron: '0 6 * * *'  # Her gün saat 09:00'da çalışır (UTC+3)
-  workflow_dispatch:      # Manuel çalıştırmak için
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Repo'yu klonla
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Python'u kur
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Kütüphaneleri yükle
-      run: |
-        pip install openai moviepy google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client requests pydub
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
 
-    - name: OpenAI, ElevenLabs ve YouTube API'lerini çalıştır
-      env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY }}
-        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      run: |
-        echo "${CLIENT_SECRET}" > client_secret.json
-        jupyter nbconvert --to python --output run_video_generator ai_video_generator_with_youtube.ipynb
-        python3 run_video_generator.py
+      - name: Install Jupyter
+        run: pip install notebook
+
+      - name: Run notebook and upload
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        run: |
+          echo "$CLIENT_SECRET" > client_secret.json
+          jupyter nbconvert --to python --output run_video_generator ai_video_generator_with_youtube.ipynb
+          python3 run_video_generator.py
